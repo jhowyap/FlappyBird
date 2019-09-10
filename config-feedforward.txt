@@ -34,7 +34,7 @@ conn_add_prob			= 0.5
 conn_delete_prob		= 0.5
 
 # connection enable options
-enabled_default			= default
+enabled_default			= True
 enabled_mutate_rate		= 0.01
 
 feed_forward			= True
@@ -46,7 +46,7 @@ node_delete_prob		= 0.2
 
 # network parameters
 num_hidden				= 0
-num_inputs				= 3
+num_inputs				= 2
 num_outputs				= 1
 
 # node response options
