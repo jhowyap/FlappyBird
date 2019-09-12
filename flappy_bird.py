@@ -446,7 +446,9 @@ def run(config_path):
 			stats = neat.StatisticsReporter()
 			p.add_reporter(stats)
 
-			p.run(main, 50)
+			winner = p.run(main, 50)
+			with open("winner-genome.pickle", "wb") as f:
+				pickle.dump(winner, f, pickle.HIGHEST_PROTOCOL)
 
 			print('\nBest genome:\n{!s}'.format(winner))
 
