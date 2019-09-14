@@ -236,7 +236,7 @@ class Base:
 		win.blit(self.IMG, (self.x2, self.y))
 
 
-def draw_window(win, birds, pipes, base, score, gen, pipe_ind):
+def draw_window(win, birds, pipes, base, score, gen, pipe_ind, start = True, lost = False):
 	"""
 	Draws the windows for the main game loop
 	:param win: pygame window or surface
@@ -245,7 +245,9 @@ def draw_window(win, birds, pipes, base, score, gen, pipe_ind):
 	:param base: Base object
 	:param score: score of the game (int)
 	:param gen: current generation (int)
-	:param pipe_ind: index of the closest pipe
+	:param pipe_ind: index of the closest pipe (int)
+	:param start: indicator for game start (bool)
+	:param lost: inidicator for player lost (bool)
 	:return: None
 	"""
 	win.blit(BG_IMG, (0, 0))
@@ -269,28 +271,39 @@ def draw_window(win, birds, pipes, base, score, gen, pipe_ind):
 		# Draw bird
 		bird.draw(win)
 
-	# Score label
-	text = STAT_FONT.render("Score: " + str(score), 1, COLOR_WHITE)
-	win.blit(text, (win.get_width() - 10 - text.get_width(), 10))
+	if start:
+		# Score label
+		text = STAT_FONT.render("Score: " + str(score), 1, COLOR_WHITE)
+		win.blit(text, (win.get_width() - 10 - text.get_width(), 10))
 
-	# Generation label
-	text = STAT_FONT.render("Gen: " + str(gen), 1, COLOR_WHITE)
-	win.blit(text, (10, 10))
+		# Generation label
+		text = STAT_FONT.render("Gen: " + str(gen), 1, COLOR_WHITE)
+		win.blit(text, (10, 10))
 
-	# Number of birds alive
-	text = STAT_FONT.render("Alive: " + str(len(birds)), 1, COLOR_WHITE)
-	win.blit(text, (10, 50))
+		# Number of birds alive
+		text = STAT_FONT.render("Alive: " + str(len(birds)), 1, COLOR_WHITE)
+		win.blit(text, (10, 50))
+	else:
+		# Game start instruction
+		text = STAT_FONT.render("Press S to Start", 1, COLOR_WHITE)
+		win.blit(text, ((win.get_width() - text.get_width()) / 2, win.get_height() / 2))
+
+	if lost:
+		# Final score output
+		show_final_score(win, score)
 
 	pygame.display.update()
 
 
 def show_final_score(win, score):
-	win.blit(BG_IMG, (0, 0))
-
+	"""
+	Show the final score achieved by players
+	:param win: pygame window or surface
+	:param score: score of the game (int)
+	:return: None
+	"""
 	text = STAT_FONT.render("The bird crashed!", 1, COLOR_WHITE)
 	text2 = STAT_FONT.render("You score " + str(score), 1, COLOR_WHITE)
 
-	win.blit(text, ((win.get_width() - text.get_width()) / 2, win.get_height() / 2))
-	win.blit(text2, ((win.get_width() - text2.get_width()) / 2, win.get_height() / 2 + text.get_height()))
-
-	pygame.display.update()
+	win.blit(text, ((win.get_width() - text.get_width()) / 2, win.get_height() / 3))
+	win.blit(text2, ((win.get_width() - text2.get_width()) / 2, win.get_height() / 3 + text.get_height()))
